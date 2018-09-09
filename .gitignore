@@ -1,0 +1,3 @@
+ansible.cfg
+inventory
+vault_pass.txt
