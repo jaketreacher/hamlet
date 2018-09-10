@@ -1,6 +1,7 @@
 ---
 - hosts: hamlet-test
   become: yes
+  gather_facts: no
   remote_user: vagrant
   roles:
     - { role: ../hamlet, app_name: hamlet-test } # unsure about this

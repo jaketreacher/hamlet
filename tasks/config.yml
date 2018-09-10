@@ -1,0 +1,19 @@
+---
+- name: create nginx config from template
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/{{ app_name }}.conf
+
+- name: create systemd config from template
+  template:
+    src: systemd.service.j2
+    dest: /etc/systemd/system/{{ app_name }}.service
+
+- name: activate nginx config
+  file:
+    src: /etc/nginx/sites-available/{{ app_name }}.conf
+    dest: /etc/nginx/sites-enabled/{{ app_name }}.conf
+    state: link
+  notify: restart nginx
+
+# TBD: config postgres

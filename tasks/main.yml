@@ -1,5 +1,8 @@
 ---
-- include_tasks: apt.yml # install packages
-- include_tasks: project.yml # copy project and setup venv
-# - include_tasks: config.yml # configure everything
+- name: apt
+  include_tasks: apt.yml # install packages
+- name: project
+  include_tasks: project.yml # copy project and setup venv
+- name: config
+  include_tasks: config.yml # configure everything
 # - include_tasks: services.yml # start services
