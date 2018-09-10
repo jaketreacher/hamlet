@@ -1,0 +1,19 @@
+---
+- name: fetch git repo
+  git:
+    repo: https://github.com/jaketreacher/hamlet_demoapp.git
+    dest: "{{ app_dir}}/live"
+    version: production
+    force: yes
+
+- name: setup virtual env
+  pip:
+    requirements: "{{ app_dir }}/live/requirements.txt"
+    virtualenv_command: pyvenv
+    virtualenv: "{{ app_dir }}/live/venv"
+
+- name: collect static
+  django_manage:
+    command: collectstatic
+    app_path: "{{ app_dir }}/live"
+    virtualenv: "{{ app_dir }}/live/venv"

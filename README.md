@@ -11,7 +11,14 @@ TBD
 Role Variables
 --------------
 
-TBD
+`sites_dir: /srv/sites`  
+The directory all sites are stored in.
+
+`app_name: ''`  
+The name of the app.
+
+`app_dir: "{{ sites_dir + '/' + app_name }}"`  
+The directory the app is stored in.
 
 Dependencies
 ------------

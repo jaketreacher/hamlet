@@ -1,2 +1,4 @@
 ---
 ansible_python_interpreter: /usr/bin/python3
+sites_dir: /srv/sites
+app_dir: "{{ sites_dir + '/' + app_name }}"

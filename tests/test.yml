@@ -3,4 +3,4 @@
   become: yes
   remote_user: vagrant
   roles:
-    - ../hamlet # unsure about this
+    - { role: ../hamlet, app_name: hamlet-test } # unsure about this
