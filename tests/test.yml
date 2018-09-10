@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: hamlet-test
+  become: yes
+  remote_user: vagrant
   roles:
-    - hamlet
+    - ../hamlet # unsure about this
