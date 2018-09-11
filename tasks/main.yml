@@ -6,4 +6,4 @@
 - name: config
   include_tasks: config.yml # configure everything
 - name: service
-  include_tasks: services.yml # start services
+  include_tasks: service.yml # start services

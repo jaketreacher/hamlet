@@ -1,7 +1,15 @@
 ---
-- hosts: hamlet-test
+- hosts: tests
   become: yes
   gather_facts: no
   remote_user: vagrant
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3
   roles:
-    - { role: ../hamlet, app_name: hamlet-test } # unsure about this
+    - {
+        role: ../hamlet, # unsure about this
+        app_name: hamlet-test,
+        git_repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
+        branch_name: production,
+        project_name: hamlet_test
+      }

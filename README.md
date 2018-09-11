@@ -11,14 +11,33 @@ TBD
 Role Variables
 --------------
 
-`sites_dir: /srv/sites`  
-The directory all sites are stored in.
+Required:
+- `app_name`  
+_The name of the app._  
+Used in:
+    - folder in shared sites directory: _/srv/sites/{{ app_name }}_
+    - name of the gunicorn service: _/etc/systemd/system/{{ app\_name}}.service_
+    - name of the nginx config: _/etc/nginx/sites-available/{{ app\_name }}.service_
 
-`app_name: ''`  
-The name of the app.
+- `branch_name`
+asdf
 
-`app_dir: "{{ sites_dir + '/' + app_name }}"`  
-The directory the app is stored in.
+- `git_repo`  
+asdf
+
+Optional:
+- `sites_dir`  
+_The directory all sites are stored in._  
+Default: `/srv/sites`  
+
+- `app_dir`  
+_The directory the app is stored in._  
+Default: `"{{ sites_dir + '/' + app_name }}"`  
+
+- `project_name`  
+_The name of the project created with `django-admin startproject`. Used to locate `wsgi.py`._  
+Default: `"{{ app_name }}"`
+
 
 Dependencies
 ------------

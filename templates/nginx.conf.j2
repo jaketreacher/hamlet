@@ -3,11 +3,11 @@ server {
     server_name {{ app_name }};
 
     location /static/ {
-        root {{ app_dir }}/live;
+        root {{ app_dir }};
     }
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:{{ app_dir }}/live/socket.sock;
+        proxy_pass http://unix:{{ app_dir }}/gunicorn.sock;
     }
 }

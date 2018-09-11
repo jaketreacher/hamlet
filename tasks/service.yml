@@ -1,7 +1,7 @@
 ---
 - name: check gunicorn systemd service running
   service:
-    name: hamlet-test
+    name: "{{ file_name }}.service"
     enabled: yes
     state: started
 
@@ -9,4 +9,4 @@
   service:
     name: nginx
     enabled: yes
-    start: started
+    state: started

@@ -3,3 +3,7 @@
   service:
     name: nginx
     state: restarted
+
+- name: reload daemon
+  service:
+    daemon_reload: yes
