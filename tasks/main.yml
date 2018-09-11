@@ -5,4 +5,5 @@
   include_tasks: project.yml # copy project and setup venv
 - name: config
   include_tasks: config.yml # configure everything
-# - include_tasks: services.yml # start services
+- name: service
+  include_tasks: services.yml # start services

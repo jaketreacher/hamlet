@@ -1,0 +1,12 @@
+---
+- name: check gunicorn systemd service running
+  service:
+    name: hamlet-test
+    enabled: yes
+    state: started
+
+- name: check nginx running
+  service:
+    name: nginx
+    enabled: yes
+    start: started
