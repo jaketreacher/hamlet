@@ -6,4 +6,25 @@
 
 - name: reload daemon
   service:
+    name: "{{ file_name }}"
+    state: restarted
     daemon_reload: yes
+
+- name: install requirements
+  pip:
+    requirements: "{{ app_dir }}/requirements.txt"
+    virtualenv: "{{ app_dir }}/venv"
+
+- name: collect static
+  django_manage:
+    command: collectstatic
+    app_path: "{{ app_dir }}"
+    virtualenv: "{{ app_dir }}/venv"
+
+- name: update directory permissions
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    recurse: yes

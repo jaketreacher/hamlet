@@ -1,5 +1,4 @@
 ---
-- import_tasks: apt.yml # install packages
-- import_tasks: project.yml # copy project and setup venv
-- import_tasks: config.yml # configure everything
-- import_tasks: service.yml # start services
+- import_tasks: setup.yml
+- import_tasks: project.yml
+- import_tasks: nginx.yml
