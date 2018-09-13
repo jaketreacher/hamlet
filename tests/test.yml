@@ -9,7 +9,9 @@
     - {
         role: ../hamlet, # unsure about this
         app_name: hamlet-test,
+        server_name: hamlet-test,
         git_repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
         branch_name: production,
         project_name: hamlet_test
       }
+

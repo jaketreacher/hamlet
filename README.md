@@ -13,17 +13,21 @@ Role Variables
 
 Required:
 - `app_name`  
-_The name of the app._  
-Used in:
-    - folder in shared sites directory: _/srv/sites/{{ app_name }}_
-    - name of the gunicorn service: _/etc/systemd/system/{{ app\_name}}.service_
-    - name of the nginx config: _/etc/nginx/sites-available/{{ app\_name }}.service_
-
-- `branch_name`
-asdf
+_A single variables for simple configuration_  
+If this is not specified, the following three will be required:  
+app_dir, project_name, file_name  
 
 - `git_repo`  
-asdf
+_The path of the git repo to fetch_
+
+- `branch_name`
+_The name of the branch to fetch from the `git_repo`_
+Used in:
+    - fetching the git branch
+    - to construct a unique `file_name`
+
+- `server_name`  
+_The name of the server in the nginx config_
 
 Optional:
 - `sites_dir`  
@@ -37,6 +41,10 @@ Default: `"{{ sites_dir + '/' + app_name }}"`
 - `project_name`  
 _The name of the project created with `django-admin startproject`. Used to locate `wsgi.py`._  
 Default: `"{{ app_name }}"`
+
+- `file_name`  
+_The name of various files_  
+Default: `"{{ app_name + '.' + branch_name }}"`  
 
 
 Dependencies
