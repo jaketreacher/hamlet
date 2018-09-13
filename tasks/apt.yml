@@ -10,5 +10,4 @@
   loop:
     - nginx
     - postgresql
-    - python3
-    - python3-venv
+    - virtualenv
