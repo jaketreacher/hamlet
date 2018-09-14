@@ -7,14 +7,9 @@
     force: yes
   notify:
     - install requirements
+    - ensure gunicorn installed
     - collect static
     - update directory permissions
-
-- name: ensure gunicorn installed
-  pip:
-    name: gunicorn
-    virtualenv: "{{ app_dir }}/venv"
-  notify: update directory permissions
 
 - meta: flush_handlers
 

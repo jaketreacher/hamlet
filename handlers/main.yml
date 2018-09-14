@@ -15,6 +15,11 @@
     requirements: "{{ app_dir }}/requirements.txt"
     virtualenv: "{{ app_dir }}/venv"
 
+- name: ensure gunicorn installed
+  pip:
+    name: gunicorn
+    virtualenv: "{{ app_dir }}/venv"
+
 - name: collect static
   django_manage:
     command: collectstatic
