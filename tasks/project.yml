@@ -1,9 +1,9 @@
 ---
 - name: fetch git repo
   git:
-    repo: "{{ git_repo }}"
-    dest: "{{ app_dir }}"
-    version: "{{ branch_name }}"
+    repo: "{{ hamlet.git.repo }}"
+    dest: "{{ hamlet.project.dir }}"
+    version: "{{ hamlet.git.branch }}"
     force: yes
   notify:
     - install requirements
@@ -16,11 +16,11 @@
 - name: create systemd config from template
   template:
     src: systemd.service.j2
-    dest: /etc/systemd/system/{{ file_name }}.service
+    dest: /etc/systemd/system/{{ hamlet.daemon_name }}.service
   notify: reload daemon
 
 - name: check gunicorn systemd service running
   service:
-    name: "{{ file_name }}"
+    name: "{{ hamlet.daemon_name }}"
     enabled: yes
     state: started

@@ -2,13 +2,13 @@
 - name: copy nginx template
   template:
     src: nginx.conf.j2
-    dest: /etc/nginx/sites-available/{{ file_name }}.conf
+    dest: "/etc/nginx/sites-available/{{ hamlet.project.name + '-' + hamlet.git.branch }}.conf"
   notify: restart nginx
 
 - name: enable nginx config
   file:
-    src: /etc/nginx/sites-available/{{ file_name }}.conf
-    dest: /etc/nginx/sites-enabled/{{ file_name }}.conf
+    src: "/etc/nginx/sites-available/{{ hamlet.project.name + '-' + hamlet.git.branch }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ hamlet.project.name + '-' + hamlet.git.branch }}.conf"
     state: link
   notify: restart nginx
 

@@ -1,13 +1,13 @@
 server {
     listen 80;
-    server_name {{ server_name }};
+    server_name {{ hamlet.server_name }};
 
     location /static/ {
-        root {{ app_dir }};
+        root {{ hamlet.project.dir }};
     }
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:{{ app_dir }}/gunicorn.sock;
+        proxy_pass http://unix:{{ hamlet.project.dir }}/gunicorn.sock;
     }
 }

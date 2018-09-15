@@ -6,29 +6,29 @@
 
 - name: reload daemon
   service:
-    name: "{{ file_name }}"
+    name: "{{ hamlet.daemon_name }}"
     state: restarted
     daemon_reload: yes
 
 - name: install requirements
   pip:
-    requirements: "{{ app_dir }}/requirements.txt"
-    virtualenv: "{{ app_dir }}/venv"
+    requirements: "{{ hamlet.project.dir }}/requirements.txt"
+    virtualenv: "{{ hamlet.project.dir }}/venv"
 
 - name: ensure gunicorn installed
   pip:
     name: gunicorn
-    virtualenv: "{{ app_dir }}/venv"
+    virtualenv: "{{ hamlet.project.dir }}/venv"
 
 - name: collect static
   django_manage:
     command: collectstatic
-    app_path: "{{ app_dir }}"
-    virtualenv: "{{ app_dir }}/venv"
+    app_path: "{{ hamlet.project.dir }}"
+    virtualenv: "{{ hamlet.project.dir }}/venv"
 
 - name: update directory permissions
   file:
-    path: "{{ app_dir }}"
+    path: "{{ hamlet.project.dir }}"
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"

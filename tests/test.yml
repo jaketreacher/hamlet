@@ -8,10 +8,17 @@
   roles:
     - {
         role: ../hamlet, # unsure about this
-        app_name: hamlet-test,
-        server_name: hamlet-test,
-        git_repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
-        branch_name: production,
-        project_name: hamlet_test
+        hamlet: {
+          project: {
+            dir: "/srv/sites/hamlet_demoapp",
+            name: "hamlet_test"
+          },
+          git: {
+            repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
+            branch: production
+          },
+          daemon_name: hamlet_test.prod,
+          server_name: hamlet-test
+        }
       }
 

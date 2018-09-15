@@ -6,46 +6,33 @@ Deploys and configures a Django app to a shared hosting server running nginx and
 Requirements
 ------------
 
-TBD
+- psycopg2 (if postgres used)
 
 Role Variables
 --------------
 
-Required:
-- `app_name`  
-_A single variables for simple configuration_  
-If this is not specified, the following three will be required:  
-app_dir, project_name, file_name  
+The variables are contained in a dictionary as the encapsulation makes it easier to manage. The structure is below:
 
-- `git_repo`  
-_The path of the git repo to fetch_
+```
+hamlet:
+    project:
+        dir
+        name
+    git:
+        repo
+        branch
+    daemon_name
+    server_name
+```
 
-- `branch_name`
-_The name of the branch to fetch from the `git_repo`_
-Used in:
-    - fetching the git branch
-    - to construct a unique `file_name`
-
-- `server_name`  
-_The name of the server in the nginx config_
-
-Optional:
-- `sites_dir`  
-_The directory all sites are stored in._  
-Default: `/srv/sites`  
-
-- `app_dir`  
-_The directory the app is stored in._  
-Default: `"{{ sites_dir + '/' + app_name }}"`  
-
-- `project_name`  
-_The name of the project created with `django-admin startproject`. Used to locate `wsgi.py`._  
-Default: `"{{ app_name }}"`
-
-- `file_name`  
-_The name of various files_  
-Default: `"{{ app_name + '.' + branch_name }}"`  
-
+Parameter | Comments
+:---: | ---
+project.dir | The directory the project should be placed in.
+project.name | The name of the project created with `django-admin startproject`. Used to locate `wsgi.py`.
+git.repo | The git repo.
+git.branch | The branch to fetch. Will also be used to make a unique nginx file name, <br/>`{{ hamlet.project.name + '-' + hamlet.git.branch }}.conf`
+daemon_name | The name of the gunicorn daemon service that will be serving the website
+server_name | The address nginx should listen on.
 
 Dependencies
 ------------
@@ -55,9 +42,28 @@ None.
 Example Playbook
 ----------------
 
-Pending
+```
+roles:
+  - {
+    role: hamlet,
+    hamlet: {
+      project: {
+        dir: "/srv/sites/hamlet_demoapp",
+        name: "hamlet_test"
+      },
+      git: {
+        repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
+        branch: production
+      },
+      daemon_name: hamlet_test.prod,
+      server_name: hamlet-test
+    }
+  }
+```
 
 License
 -------
 
 [MIT](LICENSE)
+
+

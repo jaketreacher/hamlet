@@ -1,12 +1,12 @@
 [Unit]
-Description={{ file_name }} gunicorn daemon
+Description={{ hamlet.daemon_name }} gunicorn daemon
 After=network.target
 
 [Service]
 User={{ ansible_user }}
 Group={{ ansible_user }}
-WorkingDirectory={{ app_dir }}
-ExecStart={{ app_dir }}/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:{{ app_dir }}/gunicorn.sock {{ project_name }}.wsgi:application
+WorkingDirectory={{ hamlet.project.dir }}
+ExecStart={{ hamlet.project.dir }}/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:{{ hamlet.project.dir }}/gunicorn.sock {{ hamlet.project.name }}.wsgi:application
 
 [Install]
 WantedBy=multi-user.target

@@ -1,5 +1,0 @@
----
-sites_dir: /srv/sites
-app_dir: "{{ sites_dir + '/' + app_name + '/' + branch_name }}"
-project_name: "{{ app_name }}"
-file_name: "{{ app_name + '.' + branch_name }}"
