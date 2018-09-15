@@ -17,6 +17,11 @@
             repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
             branch: production
           },
+          db: {
+            name: hamlet-prod,
+            user: hamlet,
+            pass: password
+          },
           daemon_name: hamlet_test.prod,
           server_name: hamlet-test
         }

@@ -14,5 +14,7 @@ Vagrant.configure("2") do |config|
 			destination: "/tmp/id_rsa.pub"
 		node.vm.provision "shell",
 			inline: "cat /tmp/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys"
+		node.vm.provision "shell",
+			inline: "apt install python3-psycopg2 -y"
 	end
 end

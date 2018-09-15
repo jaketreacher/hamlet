@@ -1,0 +1,27 @@
+---
+- name: get postgres version
+  shell: psql -V | egrep -o '[0-9]{1,}\.[0-9]{1,}'
+  register: last_shell
+  changed_when: False
+
+- name: update postgres config
+  lineinfile:
+    path: /etc/postgresql/{{ last_shell.stdout }}/main/pg_hba.conf
+    regexp: '^(local.*postgres.*)peer$'
+    line: '\1trust'
+    backrefs: yes
+  notify: restart postgres
+
+- meta: flush_handlers
+
+- name: setup postgres user
+  postgresql_user:
+    name: "{{ hamlet.db.user }}"
+    password: "{{ hamlet.db.pass }}"
+    state: present
+
+- name: setup postgres database
+  postgresql_db:
+    name: "{{ hamlet.db.name }}"
+    owner: "{{ hamlet.db.user }}"
+    state: present

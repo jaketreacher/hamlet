@@ -21,6 +21,10 @@ hamlet:
     git:
         repo
         branch
+    db:
+      name
+      user
+      pass
     daemon_name
     server_name
 ```
@@ -31,6 +35,9 @@ project.dir | The directory the project should be placed in.
 project.name | The name of the project created with `django-admin startproject`. Used to locate `wsgi.py`.
 git.repo | The git repo.
 git.branch | The branch to fetch. Will also be used to make a unique nginx file name, <br/>`{{ hamlet.project.name + '-' + hamlet.git.branch }}.conf`
+db.name | Database name
+db.user | Database user
+db.pass | Database password
 daemon_name | The name of the gunicorn daemon service that will be serving the website
 server_name | The address nginx should listen on.
 

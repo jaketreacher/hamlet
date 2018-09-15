@@ -4,6 +4,11 @@
     name: nginx
     state: restarted
 
+- name: restart postgres
+  service:
+    name: postgresql
+    state: restarted
+
 - name: reload daemon
   service:
     name: "{{ hamlet.daemon_name }}"
