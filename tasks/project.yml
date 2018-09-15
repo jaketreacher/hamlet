@@ -5,13 +5,35 @@
     dest: "{{ hamlet.project.dir }}"
     version: "{{ hamlet.git.branch }}"
     force: yes
-  notify:
-    - install requirements
-    - ensure gunicorn installed
-    - collect static
-    - update directory permissions
+  register: fetch_git_repo
 
-- meta: flush_handlers
+- name: install requirements
+  pip:
+    requirements: "{{ hamlet.project.dir }}/requirements.txt"
+    virtualenv: "{{ hamlet.project.dir }}/venv"
+  when: fetch_git_repo.changed
+
+- name: ensure gunicorn installed
+  pip:
+    name: gunicorn
+    virtualenv: "{{ hamlet.project.dir }}/venv"
+  when: fetch_git_repo.changed
+
+- name: collect static
+  django_manage:
+    command: collectstatic
+    app_path: "{{ hamlet.project.dir }}"
+    virtualenv: "{{ hamlet.project.dir }}/venv"
+  when: fetch_git_repo.changed
+
+- name: update directory permissions
+  file:
+    path: "{{ hamlet.project.dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    recurse: yes
+  when: fetch_git_repo.changed
 
 - name: create systemd config from template
   template:

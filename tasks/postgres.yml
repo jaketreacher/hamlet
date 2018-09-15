@@ -10,9 +10,13 @@
     regexp: '^(local.*postgres.*)peer$'
     line: '\1trust'
     backrefs: yes
-  notify: restart postgres
+  register: update_postgres_config
 
-- meta: flush_handlers
+- name: apply postgres config changes
+  service:
+    name: postgresql
+    state: restarted
+  when: update_postgres_config.changed
 
 - name: setup postgres user
   postgresql_user:
