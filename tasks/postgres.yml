@@ -29,3 +29,10 @@
     name: "{{ hamlet.db.name }}"
     owner: "{{ hamlet.db.user }}"
     state: present
+
+- name: check postgres running
+  service:
+    name: postgresql
+    enabled: yes
+    state: started
+    
