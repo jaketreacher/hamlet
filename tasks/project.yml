@@ -19,11 +19,14 @@
     virtualenv: "{{ hamlet.project.dir }}/venv"
   when: fetch_git_repo.changed
 
-- name: collect static
+- name: django collectstatic and migrate
   django_manage:
-    command: collectstatic
+    command: "{{ item }}"
     app_path: "{{ hamlet.project.dir }}"
     virtualenv: "{{ hamlet.project.dir }}/venv"
+  loop:
+    - collectstatic
+    - migrate
   when: fetch_git_repo.changed
 
 - name: update directory permissions
