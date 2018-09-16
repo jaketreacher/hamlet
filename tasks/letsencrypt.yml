@@ -1,0 +1,15 @@
+---
+- name: check letsencrypt files exist
+  stat:
+    path: /etc/letsencrypt/live/{{ hamlet.server_name }}/{{ item }}.pem
+  loop:
+    - fullchain
+    - privkey
+  register: letsencrypt_files
+
+- name: run certbot
+  shell: certbot --register-unsafely-without-email --agree-tos --keep --nginx certonly {% if letsencrypt_staging %}--staging {% endif %}{% for domain in letsencrypt_domains %}-d {{ domain }} {% endfor %} -q
+  when:
+    - not letsencrypt_files.results[0].stat.exists
+    - not letsencrypt_files.results[1].stat.exists
+  notify: restart nginx

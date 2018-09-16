@@ -1,9 +1,17 @@
 ---
-- name: copy nginx template
+- name: copy nginx standard template
   template:
     src: nginx.conf.j2
     dest: "/etc/nginx/sites-available/{{ hamlet.project.name + '-' + hamlet.git.branch }}.conf"
   notify: restart nginx
+  when: not letsencrypt_enabled
+
+- name: copy nginx SSL template
+  template:
+    src: nginx-ssl.conf.j2
+    dest: "/etc/nginx/sites-available/{{ hamlet.project.name + '-' + hamlet.git.branch }}.conf"
+  notify: restart nginx
+  when: letsencrypt_enabled
 
 - name: enable nginx config
   file:

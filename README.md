@@ -41,6 +41,15 @@ db.pass | Database password
 daemon_name | The name of the gunicorn daemon service that will be serving the website
 server_name | The address nginx should listen on.
 
+<br/>
+Flags for Letsencrypt are kept outside of the dictionary to enable defaults to be set.  
+
+Parameter | Default | Comments
+:---: | --- |---
+letsencrypt_enabled | False | Whether to use HTTPS
+letsencrypt_domains | | A list of domains to be passed into Certbot. Required if `letsencrypt_enabled` is True.
+letsencrypt_staging | False | Use the staging server to obtain test certificates.
+
 Dependencies
 ------------
 
@@ -52,20 +61,24 @@ Example Playbook
 ```
 roles:
   - {
-    role: hamlet,
-    hamlet: {
-      project: {
-        dir: "/srv/sites/hamlet_demoapp",
-        name: "hamlet_test"
-      },
-      git: {
-        repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
-        branch: production
-      },
-      daemon_name: hamlet_test.prod,
-      server_name: hamlet-test
-    }
-  }
+      role: hamlet,
+      hamlet: {
+        project: {
+          dir: "/srv/sites/hamlet_demoapp",
+          name: "hamlet_test"
+        },
+        git: {
+          repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
+          branch: production
+        },
+        db: {
+          name: hamlet-prod,
+          user: hamlet,
+          pass: password
+        },
+        daemon_name: hamlet_test.prod,
+        server_name: hamlet-test
+      }
 ```
 
 License

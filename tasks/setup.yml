@@ -3,7 +3,7 @@
   apt:
     cache_valid_time: 86400 # 24 hours
 
-- name: ensure apt packages installed
+- name: install apt packages
   apt:
     name: "{{ item }}"
     state: present
@@ -11,3 +11,14 @@
     - nginx
     - postgresql
     - virtualenv
+
+- name: install certbot ppa
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+  when: letsencrypt_enabled
+
+- name: install certbot package
+  apt:
+    name: python-certbot-nginx
+    state: present
+  when: letsencrypt_enabled

@@ -1,0 +1,37 @@
+server {
+    server_name {{ hamlet.server_name }};
+
+    location /static/ {
+        root {{ hamlet.project.dir }};
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:{{ hamlet.project.dir }}/gunicorn.sock;
+    }
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/{{ hamlet.server_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ hamlet.server_name }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
+# Redirect WWW
+server {
+    listen 80;
+    server_name www.{{ hamlet.server_name }};
+
+    return 301 $scheme://{{ hamlet.server_name }}$request_uri;
+}
+
+# Redirect HTTP
+server {
+    if ($host = {{ hamlet.server_name }}) {
+        return 301 https://$host$request_uri;
+    }
+
+    listen 80;
+    server_name {{ hamlet.server_name }};
+    return 404;
+}

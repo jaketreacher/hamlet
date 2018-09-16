@@ -1,6 +1,13 @@
 ---
 - import_tasks: setup.yml
+
 - import_tasks: postgres.yml
   when: "'db' in hamlet.keys()"
+
 - import_tasks: project.yml
+
+- import_tasks: letsencrypt.yml
+  when: letsencrypt_enabled
+  
 - import_tasks: nginx.yml
+  
