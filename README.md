@@ -18,6 +18,7 @@ hamlet:
     project:
         dir
         name
+        env
     git:
         repo
         branch
@@ -33,6 +34,7 @@ Parameter | Comments
 :---: | ---
 project.dir | The directory the project should be placed in.
 project.name | The name of the project created with `django-admin startproject`. Used to locate `wsgi.py`.
+project.env | The path of the .env file. 
 git.repo | The git repo.
 git.branch | The branch to fetch. Will also be used to make a unique nginx file name, <br/>`{{ hamlet.project.name + '-' + hamlet.git.branch }}.conf`
 db.name | Database name
@@ -40,6 +42,9 @@ db.user | Database user
 db.pass | Database password
 daemon_name | The name of the gunicorn daemon service that will be serving the website
 server_name | The address nginx should listen on.
+
+project.env in optional.  
+db.* is optional. However, if one is specified, all others must be specified.  
 
 <br/>
 Flags for Letsencrypt are kept outside of the dictionary to enable defaults to be set.  
@@ -60,12 +65,13 @@ Example Playbook
 
 ```
 roles:
-  - {
-      role: hamlet,
+  - role: hamlet
+    vars:
       hamlet: {
         project: {
-          dir: "/srv/sites/hamlet_demoapp",
-          name: "hamlet_test"
+          dir: "/srv/sites/hamlet_demoapp/production",
+          name: "hamlet_test",
+          env: "production.env"
         },
         git: {
           repo: "https://github.com/jaketreacher/hamlet_demoapp.git",

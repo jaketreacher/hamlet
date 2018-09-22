@@ -6,12 +6,14 @@
   vars:
     - ansible_python_interpreter: /usr/bin/python3
   roles:
-    - {
-        role: ../hamlet, # unsure about this
+    # Setup production 
+    - role: hamlet
+      vars:
         hamlet: {
           project: {
-            dir: "/srv/sites/hamlet_demoapp",
-            name: "hamlet_test"
+            dir: "/srv/sites/hamlet_demoapp/production",
+            name: "hamlet_test",
+            env: "production.env"
           },
           git: {
             repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
@@ -25,5 +27,19 @@
           daemon_name: hamlet_test.prod,
           server_name: hamlet-test
         }
-      }
-
+    # Setup staging
+    - role: hamlet
+      vars:
+        hamlet: {
+          project: {
+            dir: "/srv/sites/hamlet_demoapp/staging",
+            name: "hamlet_test",
+            env: "staging.env"
+          },
+          git: {
+            repo: "https://github.com/jaketreacher/hamlet_demoapp.git",
+            branch: staging
+          },
+          daemon_name: hamlet_test.stag,
+          server_name: staging.hamlet-test
+        }

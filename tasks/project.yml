@@ -7,6 +7,13 @@
     force: yes
   register: fetch_git_repo
 
+- name: copy env file
+  copy:
+    src: "{{ hamlet.project.env }}"
+    dest: "{{ hamlet.project.dir }}/.env"
+  when: "'env' in hamlet.project.keys()"
+  notify: reload daemon
+
 - name: install requirements
   pip:
     requirements: "{{ hamlet.project.dir }}/requirements.txt"
