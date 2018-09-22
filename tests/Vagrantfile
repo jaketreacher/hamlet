@@ -6,6 +6,7 @@ Vagrant.configure("2") do |config|
 	config.vm.define "hamlet-test" do |node|
 		node.vm.box = "ubuntu/xenial64"
 		node.vm.hostname = "hamlet-test"
+		node.hostmanager.aliases = %w(staging.hamlet-test)
 		node.vm.network "private_network", ip: "192.168.33.10"
 		node.vm.synced_folder ".", "/vagrant", disabled: true
 

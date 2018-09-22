@@ -43,3 +43,24 @@
           daemon_name: hamlet_test.stag,
           server_name: staging.hamlet-test
         }
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Test Production
+      include_tasks: verify_up.yml
+      vars:
+        - test_url: 'hamlet-test'
+        - branch_text: 'Branch: production'
+        - engine_text: 'DB Engine: postgresql'
+        - name_text: 'DB Name: hamlet-prod'
+      ignore_errors: yes
+
+    - name: Test Staging
+      include_tasks: verify_up.yml
+      vars:
+        - test_url: 'staging.hamlet-test'
+        - branch_text: 'Branch: staging'
+        - engine_text: 'DB Engine: sqlite3'
+        - name_text: 'DB Name: None'
+      ignore_errors: yes

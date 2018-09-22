@@ -1,0 +1,26 @@
+---
+- name: Fetch html
+  uri:
+    url: http://{{ test_url }}
+    return_content: yes
+  register: response
+
+- name: Test - Check Branch
+  fail:
+    msg: Branch Failed
+  when: branch_text not in response.content
+
+- name: Test - Check DB Engine
+  fail:
+    msg: DB Engine Failed
+  when: engine_text not in response.content
+
+- name: Test - Check DB Name
+  fail:
+    msg: DB Name Failed
+  when: name_text not in response.content
+
+- name: Test - Image
+  fail:
+    msg: Image Failed
+  when: "'web/images/goat.jpg' not in response.content"
