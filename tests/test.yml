@@ -5,6 +5,14 @@
   remote_user: vagrant
   vars:
     - ansible_python_interpreter: /usr/bin/python3
+  pre_tasks:
+    - name: Install Dev Packages
+      apt:
+        name: "{{ item }}"
+      loop:
+        - python3-psycopg2
+        - python3-dev
+        - build-essential
   roles:
     # Setup production 
     - role: hamlet
