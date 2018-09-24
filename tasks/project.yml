@@ -18,13 +18,13 @@
   pip:
     requirements: "{{ hamlet.project.dir }}/requirements.txt"
     virtualenv: "{{ hamlet.project.dir }}/venv"
-  when: fetch_git_repo.changed
+  when: fetch_git_repo.changed or force_project
 
 - name: ensure gunicorn installed
   pip:
     name: gunicorn
     virtualenv: "{{ hamlet.project.dir }}/venv"
-  when: fetch_git_repo.changed
+  when: fetch_git_repo.changed or force_project
 
 - name: django collectstatic and migrate
   django_manage:
@@ -32,9 +32,9 @@
     app_path: "{{ hamlet.project.dir }}"
     virtualenv: "{{ hamlet.project.dir }}/venv"
   loop:
-    - collectstatic
+    - collectstatic -i sass --noinput
     - migrate
-  when: fetch_git_repo.changed
+  when: fetch_git_repo.changed or force_project
 
 - name: update directory permissions
   file:
@@ -43,7 +43,7 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     recurse: yes
-  when: fetch_git_repo.changed
+  when: fetch_git_repo.changed or force_project
 
 - name: create systemd config from template
   template:
