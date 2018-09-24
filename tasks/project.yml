@@ -26,13 +26,14 @@
     virtualenv: "{{ hamlet.project.dir }}/venv"
   when: fetch_git_repo.changed or force_project
 
-- name: django collectstatic and migrate
+- name: django manage
   django_manage:
     command: "{{ item }}"
     app_path: "{{ hamlet.project.dir }}"
     virtualenv: "{{ hamlet.project.dir }}/venv"
   loop:
     - collectstatic -i sass --noinput
+    - compress --force
     - migrate
   when: fetch_git_repo.changed or force_project
 

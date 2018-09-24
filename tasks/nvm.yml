@@ -1,0 +1,64 @@
+---
+- name: check nvm installed
+  stat:
+    path: "$HOME/.nvm/nvm.sh"
+  register: check_nvm
+
+- name: download nvm installer
+  get_url:
+    url: https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh
+    dest: /tmp/install_nvm.sh
+  when: not check_nvm.stat.exists
+
+- name: run nvm installer
+  shell: . /tmp/install_nvm.sh
+  when: not check_nvm.stat.exists
+
+- name: install node carbon
+  shell: . $HOME/.nvm/nvm.sh && nvm install lts/carbon
+  args:
+    executable: /bin/bash
+  register: shell
+  changed_when: "'already installed' not in shell.stderr"
+
+- name: check nvm default alias
+  command: cat $HOME/.nvm/alias/default
+  register: cat_cmd
+  failed_when: false
+  changed_when: false
+
+- name: set carbon to default
+  shell: . $HOME/.nvm/nvm.sh && nvm alias default lts/carbon
+  args:
+    executable: /bin/bash
+  when: cat_cmd.stdout != "lts/carbon"
+
+- name: grab node directory path
+  shell: . $HOME/.nvm/nvm.sh && dirname $(dirname $(nvm which current))
+  args:
+    executable: /bin/bash
+  register: shell
+  changed_when: false
+
+- name: check node-sass installed
+  stat:
+    path: "{{ shell.stdout }}/bin/node-sass"
+  register: check_sass
+
+- name: install node-sass
+  shell: . $HOME/.nvm/nvm.sh && npm install -g node-sass
+  args:
+    executable: /bin/bash
+  when: not check_sass.stat.exists
+
+- name: link binaries into path
+  file:
+    src: "{{ shell.stdout }}/bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    state: link
+  loop:
+    - npm
+    - npx
+    - node
+    - node-sass
+  become: yes

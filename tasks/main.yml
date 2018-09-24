@@ -4,6 +4,9 @@
 - import_tasks: postgres.yml
   when: "'db' in hamlet.keys()"
 
+- import_tasks: nvm.yml
+  become: no
+
 - import_tasks: project.yml
 
 - import_tasks: letsencrypt.yml
