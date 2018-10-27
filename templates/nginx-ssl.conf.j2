@@ -5,6 +5,10 @@ server {
         root {{ hamlet.project.dir }};
     }
 
+    location /media/ {
+        root {{ hamlet.project.dir }};
+    }
+
     location / {
         include proxy_params;
         proxy_pass http://unix:{{ hamlet.project.dir }}/gunicorn.sock;
